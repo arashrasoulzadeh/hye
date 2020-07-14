@@ -51,12 +51,7 @@ def hello():
         response = make_response(buffer.tobytes())
         response.headers['content-type'] = "image/png"
         return response
-    return Response("{'photo':'not sent'}", status=422, mimetype='application/json')
-
-
-@app.route('/<name>')
-def hello_name(name):
-    return "Hello {}!".format(name)
+    return Response("{'photo':'Not Found'}", status=422, mimetype='application/json')
 
 
 if __name__ == '__main__':
