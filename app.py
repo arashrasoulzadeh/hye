@@ -6,6 +6,7 @@ app = Flask(__name__)
 
 face_cascade = cv2.CascadeClassifier('haarcascades/haarcascade_frontalface_default.xml')
 eye_cascade = cv2.CascadeClassifier('haarcascades/haarcascade_eye.xml')
+smile_cascade = cv2.CascadeClassifier('haarcascades/haarcascade_smile.xml')
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
@@ -24,6 +25,10 @@ def detect(path, hars):
             img = cv2.rectangle(img, (x, y), (x + w, y + h), (255, 0, 0), 2)
             roi_gray = gray[y:y + h, x:x + w]
             roi_color = img[y:y + h, x:x + w]
+            if "smile" in hars_to_detect:
+                smiles = smile_cascade.detectMultiScale(roi_gray)
+                for (ex, ey, ew, eh) in smiles:
+                    cv2.rectangle(roi_color, (ex, ey), (ex + ew, ey + eh), (0, 255, 0), 2)
             if "eyes" in hars_to_detect:
                 eyes = eye_cascade.detectMultiScale(roi_gray)
                 for (ex, ey, ew, eh) in eyes:
@@ -56,7 +61,3 @@ def hello_name(name):
 
 if __name__ == '__main__':
     app.run()
-
-# cv2.imshow('img', img)
-# cv2.waitKey(0)
-# cv2.destroyAllWindows()
