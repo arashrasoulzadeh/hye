@@ -1,0 +1,6 @@
+numpy
+opencv-python
+flask
+flask-uploads
+Werkzeug==0.16.0
+uuid
